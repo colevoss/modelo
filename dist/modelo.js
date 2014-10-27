@@ -324,7 +324,7 @@ var modelo = Base.extend({
     tagName = matches[0].match(/<(\w+)/)[1];
 
     // Creates array of all attributes and their values in the parent element
-    attributes = matches[0].match(/[\w-]+=['"][\w\s-]*["']/g);
+    attributes = matches[0].match(/[\w-]+(?:=['"][\w\s-]*["'])*/g);
 
     // empty array if no attributes
     if(!attributes){attributes = [];}
@@ -372,7 +372,7 @@ var modelo = Base.extend({
 
 
 // Version.
-modelo.VERSION = '0.0.0';
+modelo.VERSION = '0.0.1';
 
 
 // Export to the root, which is probably `window`.

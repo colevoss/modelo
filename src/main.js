@@ -238,7 +238,7 @@ var modelo = Base.extend({
 
 
 // Version.
-modelo.VERSION = '0.0.0';
+modelo.VERSION = '0.0.1';
 
 
 // Export to the root, which is probably `window`.
