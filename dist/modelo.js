@@ -148,7 +148,7 @@ var modelo = Base.extend({
    */
   constructor: function(data) {
     this._data = {};
-
+    this.dom = undefined;
     for (var k in data){
       this._data[k] = data[k];
       this.defineProps(k);
@@ -294,7 +294,9 @@ var modelo = Base.extend({
       template = template(this._data);
     }
 
-    return this._domMaker(template);
+    this.dom = this._domMaker(template);
+    this.bindEvents();
+    return this.dom;
   },
 
   /*
@@ -369,6 +371,35 @@ var modelo = Base.extend({
     newElement.innerHTML = domString;
 
     return newElement;
+  },
+
+
+
+  /*
+   * Binds events based on this.events object
+   *
+   */
+  bindEvents: function() {
+    // {click: {}}
+    for (var type in this.events) {
+
+      // {'.class': fn(){}}
+      for (var selector in this.events[type]) {
+        var elements = this.dom.querySelectorAll(selector);
+
+        for (var _i = 0; _i < elements.length; _i++) {
+          var _this = this;
+
+          elements[_i].addEventListener(type, function(e){
+            e.data = _this;
+            _this.events[type][selector](e);
+          }, false);
+
+        }
+
+      }
+
+    }
   }
 
 });
