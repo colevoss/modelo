@@ -2,7 +2,6 @@
 
 // Base function.
 var modelo = Base.extend({
-  _data: {},            // What actually holds all the data
   validation: {},       // Object full of validation parameters
   beforeSet: undefined, // Called before a value is set
   afterSet: undefined,  // Called after a value is set
@@ -14,6 +13,8 @@ var modelo = Base.extend({
    * @params {Object} data - data to be put into this._data
    */
   constructor: function(data) {
+    this._data = {};
+
     for (var k in data){
       this._data[k] = data[k];
       this.defineProps(k);
@@ -86,7 +87,7 @@ var modelo = Base.extend({
     // Return empty array if validations isn't set on model
     // or if there is no validation for this key
     if(!this.validations || typeof(this.validations[key]) === 'undefined'){return [];}
-    var validation, errors, error;
+    var validation, errors;
 
     errors = []; // returned object containing validation errors
     validation = this.validations[key];
@@ -176,7 +177,7 @@ var modelo = Base.extend({
   },
 
   _domMaker: function(domString) {
-    var firstElRe, matches, attributes, attrValue, newElement, endTagRe, tagName;
+    var firstElRe, matches, attrString, attributes, attrValue, newElement, endTagRe, tagName;
 
     // RegExp to find the parent tag of the string
     firstElRe = new RegExp(/<[\w\s="'-]+>/);
@@ -189,14 +190,16 @@ var modelo = Base.extend({
     // Gets the tag name from the parent element
     tagName = matches[0].match(/<(\w+)/)[1];
 
+    attrString = matches[0].replace(/<\w+\s/, '');
+
     // Creates array of all attributes and their values in the parent element
-    attributes = matches[0].match(/[\w-]+(?:=['"][\w\s-]*["'])*/g);
+    attributes = attrString.match(/[\w-]+(?:=['"][\w\s-]*["'])*/g);
 
     // empty array if no attributes
     if(!attributes){attributes = [];}
 
     // New HTMLDomElement for tagName
-    newElement = document.createElement(tagName);
+    newElement = root.document.createElement(tagName);
 
     // Loop through each attributes and assign it to the new element accordingly
     for (var i = 0; i < attributes.length; i++) {
