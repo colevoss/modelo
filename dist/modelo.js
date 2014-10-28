@@ -324,7 +324,7 @@ var modelo = Base.extend({
     // Gets the tag name from the parent element
     tagName = matches[0].match(/<(\w+)/)[1];
 
-    attrString = matches[0].replace(/<\w+\s/, '');
+    attrString = matches[0].replace(/<\w+[\s>]/, '');
 
     // Creates array of all attributes and their values in the parent element
     attributes = attrString.match(/[\w-]+(?:=['"][\w\s-]*["'])*/g);

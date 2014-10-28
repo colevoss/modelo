@@ -32,5 +32,6 @@ var container = document.querySelector('.demo-container');
 console.log(container);
 
 for (var i = 0; i < people.length; i++) {
+  console.log(people[i].renderTemplate());
   container.appendChild(people[i].renderTemplate());
 }
